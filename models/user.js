@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    userType :{
+      type : String,
+      required : false
+    },
     email: {
       type: String,
       required: true,
@@ -58,6 +62,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
       default: '',
+    },
+    resetTokenExpiry:{
+      type : Date,
+      required : false
     },
     profileStatus: {
       type: String,

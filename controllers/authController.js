@@ -5,6 +5,9 @@ const authValidations = require("../validations/authValidations");
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 const logger = require('../services/logger');
+const fs = require('fs');
+const path = require('path');
+const helper = require('../helper/helper');
 
 const register = async (req, res) => {
   try {
@@ -71,7 +74,42 @@ const login = async (req, res) => {
   }
 };
 
+const sendForgotPasswordEmail = async (email, token) => {
+  try {
+
+
+    // Define the directory where your templates are located
+    const viewsDirectory = path.join(__dirname, 'views');
+    // Read the Handlebars template file
+   const source = fs.readFileSync(path.join(viewsDirectory, 'forgotPassword.hbs'), 'utf8');
+    const template = handlebars.compile(source);
+    // Create a reusable transporter object using SMTP transport
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'your_email@gmail.com',
+        pass: 'your_email_password',
+      },
+    });
+    // Send email
+    await transporter.sendMail({
+      from: 'your_email@gmail.com',
+      to: email,
+      subject: 'Password Reset Request',
+      html: template({ resetLink: `http://yourwebsite.com/reset-password?token=${token}` }),
+    });
+    console.log('Forgot password email sent');
+  } catch (error) {
+    console.error('Error sending forgot password email:', error);
+  }
+};
+
+
+
+
+
 module.exports = {
   login,
   register,
+  sendForgotPasswordEmail
 };
