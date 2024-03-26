@@ -5,9 +5,10 @@ const authValidations = require("../validations/authValidations");
 const config = require('../config');
 const jwt = require('jsonwebtoken');
 const logger = require('../services/logger');
-const fs = require('fs');
-const path = require('path');
-const helper = require('../helper/helper');
+
+
+
+
 
 const register = async (req, res) => {
   try {
@@ -29,6 +30,7 @@ const register = async (req, res) => {
     const userData = {
       email: req.body.email,
       password: hashedPassword,
+      userType:'credential'
     };
     // Save the user to the database
     const newUser = await userDAL.createUser(userData);
@@ -74,31 +76,36 @@ const login = async (req, res) => {
   }
 };
 
-const sendForgotPasswordEmail = async (email, token) => {
+const forgotPassword = async (req,res) => {
   try {
+    const {error} = authValidations.forgotPasswordSchema({email:req.body.email})
+    if(error){
+      return res.status(400).json({status:config.error_message,message: error.details[0].message })
+    }
+    const user = await userDAL.getUserByEmail(email);
+    if(!user){
+      return res.status(400).json({status:config.error_message,message: 'User with this email does not exists' });
+    }
+    if(user.userType === 'credentail'){
+      return res.status(400).json({status:config.error_message,message: `Cannot change google ${user.userType} account password` });
+    }
+    const token = jwt.sign({ _id: user._id }, process.env.RESET_PASSWORD_KEY, {
+      expiresIn: '20m',
+    });
 
-
-    // Define the directory where your templates are located
-    const viewsDirectory = path.join(__dirname, 'views');
-    // Read the Handlebars template file
-   const source = fs.readFileSync(path.join(viewsDirectory, 'forgotPassword.hbs'), 'utf8');
-    const template = handlebars.compile(source);
-    // Create a reusable transporter object using SMTP transport
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: 'your_email@gmail.com',
-        pass: 'your_email_password',
+        user: process.env.GMAIL_EMAIL,
+        pass: process.env.GMAIL_PASSWORD,
       },
     });
     // Send email
     await transporter.sendMail({
-      from: 'your_email@gmail.com',
-      to: email,
-      subject: 'Password Reset Request',
-      html: template({ resetLink: `http://yourwebsite.com/reset-password?token=${token}` }),
+      from: 'temp@gmail.com',
+      to: req.body.email,
+      subject: 'Password Reset Request'
     });
-    console.log('Forgot password email sent');
   } catch (error) {
     console.error('Error sending forgot password email:', error);
   }
@@ -106,10 +113,8 @@ const sendForgotPasswordEmail = async (email, token) => {
 
 
 
-
-
 module.exports = {
   login,
   register,
-  sendForgotPasswordEmail
+  forgotPassword
 };

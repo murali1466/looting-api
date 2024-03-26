@@ -56,7 +56,17 @@ const UserDAL = {
       logger.error(error);
       throw new Error(`Error deleting user: ${error.message}`);
     }
-  }
+  },
+  getUserByEmail: async (email) => {
+    try {
+      const user = await user.findOne({ email });
+      return user;
+    } catch (error) {
+      logger.error(error);
+      throw new Error(`Error getting user: ${error.message}`);
+    }
+  },
+  
 };
 
 module.exports = UserDAL;

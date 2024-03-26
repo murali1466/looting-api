@@ -63,10 +63,6 @@ const userSchema = new mongoose.Schema(
       required: false,
       default: '',
     },
-    resetTokenExpiry:{
-      type : Date,
-      required : false
-    },
     profileStatus: {
       type: String,
       required: false,

@@ -1,4 +1,4 @@
-const winston = require("winston");
+const winston = require('winston');
 require('winston-mongodb');
 
 const logger = winston.createLogger({
