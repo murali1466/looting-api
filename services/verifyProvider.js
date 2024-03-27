@@ -1,4 +1,23 @@
-const fetch = require('node-fetch');
+const https = require('https')
+
+function fetch(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (response) => {
+      let data = '';
+
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      response.on('end', () => {
+        resolve(data);
+      });
+    }).on('error', (error) => {
+      reject(error);
+    });
+  });
+}
+
 
 const verifyFacebookToken = async (accessToken) => {
   try {
