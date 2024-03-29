@@ -29,7 +29,9 @@ const vendorSchema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-module.exports = mongoose.model('vendor',vendorSchema);
+module.exports = mongoose.model("vendor", vendorSchema);
