@@ -3,12 +3,12 @@ const referralSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
     referredUserId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
       required: true,
     },
     reward: {
@@ -25,4 +25,4 @@ const referralSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("refer", referralSchema);
+module.exports = mongoose.model("Refer", referralSchema);

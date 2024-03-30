@@ -1,11 +1,10 @@
-const mongoose = require('mongoose');
-
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required : false,
+      required: false,
       maxLength: 40,
     },
     lastName: {
@@ -13,17 +12,13 @@ const userSchema = new mongoose.Schema(
       required: false,
       maxLength: 40,
     },
-    hashcodeToken: {
+    userType: {
       type: String,
       required: false,
     },
-    userType :{
-      type : String,
-      required : false
-    },
     email: {
       type: String,
-      required: true,
+      required: false,
       maxLength: 100,
       unique: true,
       trim: true,
@@ -50,18 +45,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    registerStatus: {
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    resetPasswordToken: {
       type: String,
       required: false,
     },
-    verifyEmailStatus: {
-      type: String,
-      required: false,
-    },
-    resetToken: {
-      type: String,
-      required: false,
-      default: '',
+    resetPasswordExpires: {
+      type: Date,
+      require: false,
     },
     profileStatus: {
       type: String,
@@ -71,4 +65,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model("User", userSchema);

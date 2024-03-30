@@ -1,11 +1,11 @@
 const logger = require("../services/logger");
-const user = require("../models/user")
+const User = require("../models/user")
 
 const UserDAL = {
   // Create a new user
   createUser: async (userData) => {
     try {
-      const newUser = new user(userData);
+      const newUser = new User(userData);
       const result = await newUser.save()
       return result;
     } catch (error) {
@@ -17,7 +17,7 @@ const UserDAL = {
   // Get all users
   getAllUsers: async () => {
     try {
-      const users = await user.find();
+      const users = await User.find();
       return users;
     } catch (error) {
       logger.error(error);
@@ -28,7 +28,7 @@ const UserDAL = {
   // Get user by ID
   getUserById: async (userId) => {
     try {
-      const user = await user.findById(userId);
+      const user = await User.findById(userId);
       return user;
     } catch (error) {
       logger.error(error);
@@ -39,7 +39,7 @@ const UserDAL = {
   // Update user by ID
   updateUserById: async (userId, updatedUserData) => {
     try {
-      const updatedUser = await user.findByIdAndUpdate(userId, updatedUserData, { new: true });
+      const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
       return updatedUser;
     } catch (error) {
       logger.error(error);
@@ -50,7 +50,7 @@ const UserDAL = {
   // Delete user by ID
   deleteUserById: async (userId) => {
     try {
-      await user.findByIdAndDelete(userId);
+      await User.findByIdAndDelete(userId);
       return { message: 'User deleted successfully' };
     } catch (error) {
       logger.error(error);
@@ -59,7 +59,7 @@ const UserDAL = {
   },
   getUserByEmail: async (email) => {
     try {
-      const user = await user.findOne({ email });
+      const user = await User.findOne({ email });
       return user;
     } catch (error) {
       logger.error(error);
