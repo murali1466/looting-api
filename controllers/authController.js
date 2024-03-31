@@ -171,13 +171,6 @@ const resetPassword = async (req, res) => {
     }
 }
 
-const passport = require('passport');
-const User = require('../models/user');
-const authValidations = require('../validations/authValidations');
-const config = require('../config');
-const jwt = require('jsonwebtoken');
-const logger = require('../services/logger');
-
 // Register using Google
 const registerWithGoogle = async (req, res) => {
   // Handle registration using data obtained from Google authentication

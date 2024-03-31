@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 //security for all routes
 app.use(cors());
 app.use(morgan('dev'));
+const PORT = process.env.PORT || 3030; 
 
 
 // const transporter = nodemailer.createTransport({
@@ -93,12 +94,7 @@ mongoose.connect(process.env.DATABASE_URI).then(()=>{
     console.log('DB connection error:',err)
 })
 
-async function callF(){
-  const isValid = await services.verifyGoogleToken('eyJhbGciOiJSUzI1NiIsImtpZCI6ImFkZjVlNzEwZWRmZWJlY2JlZmE5YTYxNDk1NjU0ZDAzYzBiOGVkZjgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCCJhenAiOiI4ODQ3MjczNzc2MjgtM3NxaGVjdXE0bGozMDI4dThxcXR0bmp0azhyNWc2NTguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI4ODQ3MjczNzc2MjgtM3NxaGVjdXE0bGozMDI4dThxcXR0bmp0azhyNWc2NTguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDQyNzk4OTQ4Mzc3MjI4MzAxMDkiLCJlbWFpbCI6Im11cmFsaWtyaXNobmF0YW5nZWxsYTE0NjZAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJUX04zUU4wWllIYlNDbXMxcnMySTZnIiwibmFtZSI6Ik1VUkFMSUtSSVNITkEgVEFOR0VMTEEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSTRMbVUxTlVmaWxVUDZKZWxyRW43OVF6cFVmZzYxSEkzYjV4YUh2MmFZYjVZcD1zOTYtYyIsImdpdmVuX25hbWUiOiJNVVJBTElLUklTSE5BIiwiZmFtaWx5X25hbWUiOiJUQU5HRUxMQSIsImlhdCI6MTcxMTcwMDgyMywiZXhwIjoxNzExNzA0NDIzfQ.roGRZFEHIj2LK0pqHNr_couu4g30KPsm2bHfbqJfg6WMoWnzprBy2vGIiOU3C2Hc8KJWZ95SZ0drdvOeQW8d35p3IARkW0ZoGnCjD1x3CHKoOcAbhwOdwOwrj5k1Z56yawtX7FsC94ctqaLfEgH38s5sW5hBcMlmb95hMpZkE6HOlxlCwd-6nx_VBht00f2OXKgckWPJusKpoIGYczs3DdVCBK8A36QKvt1K9T3TbV6qWin9e5pRzjhwh7juChmE-DrmmsglxlpGh4U3-tjnYac4pfyhsCwqq9oRawRc01fztaOOojYwGdYK_WjlMCZVyUwKjQbeBLgdOlV0kUWhRw');
-  console.log(isValid,"valid")
-}
-callF();
-app.listen(process.env.PORT,()=>{
+app.listen(PORT,()=>{
     console.log(`App is running on ${process.env.PORT}`)  
 });
 
